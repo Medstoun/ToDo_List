@@ -58,9 +58,3 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
             cd todolist
-            docker compose pull
-            docker compose up -d
-
-
-
-
