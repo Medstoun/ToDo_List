@@ -44,10 +44,25 @@ class LoginSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data: dict):
         if not (user := authenticate(
-            username=validated_data['username'],
-            password=validated_data['password']
+                username=validated_data['username'],
+                password=validated_data['password']
         )):
             raise AuthenticationFailed
         return user
 
 
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'username', 'first_name', 'last_name', 'email')
+
+
+class UpdatePasswordSerializer(serializers.Serializer):
+    user = serializers.HiddenField(default=serializers.CurrentUserDefault())
+    old_password = PasswordField(read_only=True)
+    new_password = PasswordField(read_only=True)
+
+    def create(self, validated_data):
+        raise NotImplementedError
+
+    def update(self, instance: User, validated_data):
