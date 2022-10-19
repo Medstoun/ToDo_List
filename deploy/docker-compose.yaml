@@ -28,7 +28,6 @@ services:
 
   migrations:
     image: ${DOCKERHUB_USERNAME}/todolist:latest
-    restart: always
     env_file:
       - .env
     depends_on:
@@ -39,7 +38,7 @@ services:
       - ./.env:/code/.env
 
   frontend:
-    image: sermalenk/skypro-front:lesson-34
+    image: sermalenk/skypro-front:lesson-35
     restart: always
     depends_on:
       - api

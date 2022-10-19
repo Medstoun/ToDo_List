@@ -2,7 +2,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
-from rest_framework.exceptions import ValidationError, AuthenticationFailed
+from rest_framework.exceptions import ValidationError, AuthenticationFailed, NotAuthenticated
 
 from core.models import User
 
@@ -59,10 +59,22 @@ class ProfileSerializer(serializers.ModelSerializer):
 
 class UpdatePasswordSerializer(serializers.Serializer):
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
-    old_password = PasswordField(read_only=True)
-    new_password = PasswordField(read_only=True)
+    old_password = PasswordField(required=True)
+    new_password = PasswordField(required=True)
 
-    def create(self, validated_data):
+    def validate(self, attrs: dict):
+        if not (user := attrs['user']):
+            raise NotAuthenticated
+        if not user.check_password(attrs['old_password']):
+            raise ValidationError({'old_password': 'field is incorrect'})
+        return attrs
+
+    def create(self, validated_data: dict) -> User:
         raise NotImplementedError
 
-    def update(self, instance: User, validated_data):
+    def update(self, instance: User, validated_data: dict) -> User:
+        instance.password = make_password(validated_data['new_password'])
+        instance.save(update_fields=('password',))
+        return instance
+
+
