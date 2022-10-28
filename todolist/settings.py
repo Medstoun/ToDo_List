@@ -45,8 +45,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'django_filters',
     'social_django',
     'core',
+    'goals',
 ]
 
 MIDDLEWARE = [
@@ -150,8 +152,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 SOCIAL_AUTH_JSONFIELD_ENABLED = True
 SOCIAL_AUTH_JSONFIELD_CUSTOM = 'django.db.models.JSONField'
-SOCIAL_AUTH_VK_OAUTH2_KEY = env.str('VK_OAUTH_KEY')
-SOCIAL_AUTH_VK_OAUTH2_SECRET = env.str('VK_OAUTH_SECRET')
+SOCIAL_AUTH_VK_OAUTH2_KEY = env.str('VK_OAUTH2_KEY')
+SOCIAL_AUTH_VK_OAUTH2_SECRET = env.str('VK_OAUTH2_SECRET')
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
 SOCIAL_AUTH_LOGIN_ERROR_URL = '/login-error/'
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
@@ -165,6 +167,13 @@ AUTHENTICATION_BACKENDS = (
     'social_core.backends.vk.VKOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 )
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'DEFAULT_FILTER_BACKEND': (
+        'django_filters.rest_framework.DjangoFilterBackend',
+    )
+}
 
 
 
