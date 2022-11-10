@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'social_django',
     'core',
     'goals',
+    'bot',
 ]
 
 MIDDLEWARE = [
@@ -175,5 +176,4 @@ REST_FRAMEWORK = {
     )
 }
 
-
-
+BOT_TOKEN = '5769036507:AAF0r2949xtiQh-xVhDRJHE-3_SGq6Iw0Eo'

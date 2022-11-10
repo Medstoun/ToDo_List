@@ -25,6 +25,9 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+    command: python3 manage.py runserver 0.0.0.0:8000
+    expose:
+      - 8000
 
   migrations:
     image: ${DOCKERHUB_USERNAME}/todolist:latest
@@ -37,8 +40,18 @@ services:
     volumes:
       - ./.env:/code/.env
 
+  bot:
+    image: ${DOCKERHUB_USERNAME}/todolist:latest
+    restart: always
+    env_file:
+      - .env
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: python3 manage.py runbot
+
   frontend:
-    image: sermalenk/skypro-front:lesson-37
+    image: sermalenk/skypro-front:lesson-38
     restart: always
     depends_on:
       - api
