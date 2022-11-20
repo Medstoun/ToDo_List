@@ -1,6 +1,7 @@
 from pytest_factoryboy import register
 
-from factories import UserFactory, BoardFactory, BoardParticipantFactory, GoalCategoryFactory, GoalCommentFactory, GoalFactory
+from factories import UserFactory, BoardFactory, BoardParticipantFactory, GoalCategoryFactory, GoalCommentFactory, \
+    GoalFactory
 
 register(UserFactory)
 register(BoardFactory)

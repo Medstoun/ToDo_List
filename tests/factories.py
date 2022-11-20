@@ -1,4 +1,4 @@
-import factory
+import factory.django
 
 from core.models import User
 from goals.models import Goal, GoalCategory, Board, BoardParticipant, GoalComment
